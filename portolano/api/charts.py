@@ -1,3 +1,4 @@
+import contextlib
 import os
 import tempfile
 
@@ -12,20 +13,37 @@ from portolano import (
 )
 
 
+@contextlib.contextmanager
+def pushd(path):
+    curdir = os.getcwd()
+    try:
+        os.chdir(path)
+        yield
+    finally:
+        os.chdir(curdir)
+
+
 def post(chart):
 
     f = request.files['file']
     if f:
         filename = secure_filename(f.filename)
         with tempfile.TemporaryDirectory() as tmp_dir:
-            archive_path = os.path.join(tmp_dir, filename)
-            f.save(archive_path)
-            url = app.config["STORE"].persist(archive_path)
-            index_path = helm.process(archive_path, url)
-            if not index_path:
-                return "Failed to create index for chart", 500
-            url = app.config["STORE"].persist(index_path)
-        return {"url": url}, 200
+            with pushd(tmp_dir):
+
+                archive_path = os.path.join(tmp_dir, filename)
+                f.save(archive_path)
+
+                storage = app.config["STORAGE"]
+                url = storage.base_url
+                indexname = helm.process(archive_path, url)
+                if not indexname:
+                    return "Failed to create index for chart", 500
+
+                storage.save(f, filename)
+                storage.save(open(indexname, 'rb'), indexname)
+
+        return {"url": storage.url(filename)}, 200
 
     return "missing file", 400
 

@@ -2,6 +2,7 @@ import os
 
 import connexion
 from connexion.resolver import RestyResolver
+import flask_fs
 
 specification_dir = os.path.join(os.path.dirname(__file__), 'api')
 
@@ -15,5 +16,12 @@ app.config.from_object('config.default')
 # Variables defined here will override those in the default configuration
 app.config.from_envvar('PORTOLANO_CONFIG_FILE')
 
+# Storage initialization
+flask_fs.init_app(app)
+app.config['STORAGE'] = flask_fs.Storage('charts', ('tar', 'tgz'))
+app.config['STORAGE'].configure(app)
+
+# Connexion initializtion
 connexion_app.add_api('api.yaml', resolver=RestyResolver('portolano.api'))
+
 
