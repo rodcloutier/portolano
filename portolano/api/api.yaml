@@ -24,3 +24,31 @@ paths:
             type: file
         404:
           description: File does not exists
+
+  /charts/{chart}:
+    post:
+      summary: Upload a chart archive
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: chart
+          description: "Chart name to upload"
+          in: path
+          type: string
+          required: true
+        - name: file
+          description: "tar or tar.gz chart archive"
+          in: formData
+          type: file
+          required: true
+      responses:
+        200:
+          description: Ok
+          schema:
+            type: object
+            properties:
+              url:
+                type: string
+                description: "Url to download the archived chart"
+                readOnly: true
+

@@ -1,4 +1,8 @@
-from flask import Response
+
+from flask import (
+    Response,
+)
+
 
 index = """
 apiVersion: v1
@@ -47,3 +51,4 @@ def get(filename):
     return Response(index,
                     mimetype="text/plain",
                     headers={"Content-disposition": "attachment;filename=index.yaml"})
+
