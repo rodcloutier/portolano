@@ -18,7 +18,7 @@ app.config.from_envvar('PORTOLANO_CONFIG_FILE')
 
 # Storage initialization
 flask_fs.init_app(app)
-app.config['STORAGE'] = flask_fs.Storage('charts', ('tar', 'tgz'))
+app.config['STORAGE'] = flask_fs.Storage('charts', ('tar', 'tgz'), overwrite=app.config.get('FLASK_FS_OVERWRITE', False))
 app.config['STORAGE'].configure(app)
 
 # Connexion initializtion
