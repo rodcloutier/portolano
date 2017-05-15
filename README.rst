@@ -3,7 +3,7 @@ portolano
 ===============
 
 Simple Helm repository server backed with object storage.
-The word portolan comes from the Italian adjective portolano, meaning "related to ports or harbors", or "a collection of sailing directions".
+The Italian adjective portolano means "related to ports or harbors" or "a collection of sailing directions".
 
 Currently supports the following backends (provided by `flask-fs<https://github.com/noirbizarre/flask-fs>`_
 
