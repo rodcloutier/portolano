@@ -18,7 +18,7 @@ Installation
 
 .. code-block:: console
 
-    $ docker run --rm -ti -p 5000:5000 -e PORTOLANO_CONFIG_FILE=/config/prod.config -v /$PWD/config.prod:/config --name portolano rodcloutier/portolano:latest
+    $ docker run --rm -ti -p 5000:5000 --name portolano rodcloutier/portolano:latest
 
 
 
@@ -31,6 +31,7 @@ FS_BACKEND configuration to select it. See `flask-fs configurations<http://flask
 
 FLASK_FS_OVERWRITE Will allow to overwrite the uploaded files (false by default)
 
+It also uses flask-env, so all configuration is set using environment variables.
 
 Development
 ================
@@ -42,8 +43,10 @@ For development
 
 .. code-block:: console
 
-    $export FLASk_APP=portolano
-    $ export PORTOLANO_CONFIG_FILE=/path/to/config/file
+    $ export FLASK_APP=portolano
+    $ export DEBUG=1
+    $ export FLASK_FS_OVERWRITE=1
+    $ export FS_LOCAL_ROOT=$PWD/instance
     $ flask run
 
 
@@ -51,8 +54,10 @@ Running gunicorn
 
 .. code-block:: console
 
-    $ export FLASk_APP=portolano
-    $ export PORTOLANO_CONFIG_FILE=/path/to/config/file
+    $ export FLASK_APP=portolano
+    $ export DEBUG=1
+    $ export FLASK_FS_OVERWRITE=1
+    $ export FS_LOCAL_ROOT=$PWD/instance
     $ gunicorn --config config/gunicorn_config.py portolano:connexion_app
 
 
@@ -61,7 +66,7 @@ docker
 
 .. code-block:: console
 
-    $ docker build -t portolano -f Dockerfile.dev .
-    $ docker run --rm -ti -p 5000:5000 -e PORTOLANO_CONFIG_FILE=/config/prod.config -v /$PWD/config.prod:/config --name portolano portolano
+    $ docker build -t portolano .
+    $ docker run --rm -ti -p 5000:5000 --name portolano portolano
 
 
