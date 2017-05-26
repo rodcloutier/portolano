@@ -1,3 +1,0 @@
-
-DEBUG = True
-FLASK_FS_OVERWRITE = True

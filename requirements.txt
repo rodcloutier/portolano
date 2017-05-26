@@ -1,3 +1,4 @@
 connexion
 flask-fs[all]
+flask-env
 gunicorn
