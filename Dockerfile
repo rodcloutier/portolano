@@ -12,8 +12,8 @@ RUN    apk update \
 
 ENV PATH $PATH:/app/linux-amd64
 
-COPY requirements.txt .
-RUN pip install -r requirements.txt
+COPY requirements/install.pip .
+RUN pip install -r install.pip
 
 ENV PORTOLANO_CONFIG_FILE /app/config/default.py
 
