@@ -1,16 +1,16 @@
 
 from flask import (
     Response,
+    request,
 )
+from flask import current_app as app
 
 from portolano import (
-    app,
     index
 )
 
 
 def get(filename):
-    print(filename)
     if filename != "index.yaml":
         return "File not found", 404
 
